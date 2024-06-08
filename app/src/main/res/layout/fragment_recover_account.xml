@@ -56,16 +56,18 @@
                 android:textColor="@color/white">
             </TextView>
             <EditText
-                android:id="@+id/editEmail"
+                android:id="@+id/editEmailRecover"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="email@email.com"
                 android:textSize="14sp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/background_edit"
-                android:padding="14dp">
+                android:padding="14dp"
+                android:inputType="textEmailAddress">
             </EditText>
             <Button
+                android:id="@+id/buttonRecover"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_button"
@@ -74,6 +76,16 @@
                 android:text="Oporavi"
                 android:textAllCaps="false"
                 android:textColor="@color/color_default"/>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/white"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center_horizontal"/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

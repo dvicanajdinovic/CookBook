@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/editPassword"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.auth.RegisterFragment"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    tools:context=".ui.auth.RegisterFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,11 +31,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Novi profil"
-                    android:textColor="@color/white"
                     android:layout_gravity="center_horizontal"
-                    android:padding="16dp">
-                </TextView>
+                    android:padding="16dp"
+                    android:text="Novi profil"
+                    android:textColor="@color/white"></TextView>
 
             </androidx.appcompat.widget.Toolbar>
 
@@ -43,8 +43,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:padding="16dp"
             android:orientation="vertical"
+            android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="parent"
@@ -54,45 +54,58 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="E-mail"
-                android:textColor="@color/white">
-            </TextView>
+                android:textColor="@color/white"></TextView>
+
             <EditText
                 android:id="@+id/editEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="email@email.com"
-                android:textSize="14sp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/background_edit"
-                android:padding="14dp">
-            </EditText>
+                android:hint="email@email.com"
+                android:padding="14dp"
+                android:textSize="14sp"
+                android:inputType="textEmailAddress"></EditText>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Lozinka"
-                android:textColor="@color/white">
-            </TextView>
+                android:textColor="@color/white"></TextView>
+
             <EditText
-                android:id="@+id/editPassword"
+                android:id="@+id/editPasswordRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="******"
-                android:textSize="14sp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/background_edit"
-                android:padding="14dp">
-            </EditText>
+                android:hint="******"
+                android:padding="14dp"
+                android:textSize="14sp"
+                android:inputType="textPassword"></EditText>
+
             <Button
-                android:id="@+id/btnRegister"
+                android:id="@+id/buttonSend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/background_button"
-                app:backgroundTint="@null"
                 android:layout_marginTop="16dp"
+                android:background="@drawable/background_button"
                 android:text="Submit"
                 android:textAllCaps="false"
-                android:textColor="@color/color_default"/>
+                android:textColor="@color/color_default"
+                app:backgroundTint="@null" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:visibility="visible"
+                android:indeterminateTint="@color/white"
+                android:layout_marginTop="8dp"
+                tools:visibility="invisible">
+            </ProgressBar>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

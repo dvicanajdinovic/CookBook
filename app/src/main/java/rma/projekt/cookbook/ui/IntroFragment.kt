@@ -38,8 +38,8 @@ class IntroFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-w
+
     private fun checkAuth() {
-        findNavController().navigate(R.id.action_homeFragment_to_introFragment2)
+        findNavController().navigate(R.id.action_introFragment_to_loginFragment)
     }
 }
