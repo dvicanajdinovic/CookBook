@@ -20,11 +20,16 @@
     <style name="Theme.CookBook.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.CookBook.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-    
+
     <style name="TableStyle">
         <item name="android:textStyle">bold</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="ThemeOverlay.CookBook.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
     </style>
 
 </resources>

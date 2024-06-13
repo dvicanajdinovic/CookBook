@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/background_button"
-                android:text="Submit"
+                android:text="@string/register"
                 android:textAllCaps="false"
                 android:textColor="@color/color_default"
                 app:backgroundTint="@null" />

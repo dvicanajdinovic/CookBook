@@ -21,7 +21,7 @@ import rma.projekt.cookbook.R
 import rma.projekt.cookbook.databinding.FragmentHomeBinding
 import rma.projekt.cookbook.ui.board.TableView
 
-class HomeFragment : Fragment() {
+class HomeNewFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -35,8 +35,6 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Example usage of Toast
-        showToast("Hello, world!")
 
         return root
     }
@@ -49,21 +47,17 @@ class HomeFragment : Fragment() {
         chooseContent()
 
     }
-
-    private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-    }
     private fun setTable() {
         val adapter = TableView(requireActivity())
-        //binding.pager.adapter = adapter
+//        binding.pager.adapter = adapter
 
         adapter.addFragment(NewsFragment(), R.string.news)
         adapter.addFragment(FriendsFragment(), R.string.friends)
         //adapter.addFragment(MyRecipesFragment(), R.string.recipes)
 
 
-        //binding.pager.offscreenPageLimit = adapter.itemCount
-
+//        binding.pager.offscreenPageLimit = adapter.itemCount
+//
 //        TabLayoutMediator(binding.tabs, binding.pager) {
 //            tab, position -> tab.text = getString(adapter.getTitle(position))
 //       }.attach()
@@ -78,7 +72,7 @@ class HomeFragment : Fragment() {
         AlertDialog.Builder(requireContext())
             .setMessage("Are you sure you want to logout?")
             .setPositiveButton("Yes") { _, _ ->
-                this@HomeFragment.logout()
+                logout()
             }
             .setNegativeButton("No", null)
             .show()
@@ -86,7 +80,7 @@ class HomeFragment : Fragment() {
 
     private fun logout() {
         auth.signOut()
-        findNavController().navigate(R.id.action_introFragment_to_authentication)
+        findNavController().navigate(R.id.action_homeFragment_to_authentication)
     }
 
     override fun onDestroyView() {

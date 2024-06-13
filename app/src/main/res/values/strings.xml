@@ -16,4 +16,8 @@
     <string name="news">Novosti</string>
     <string name="friends">Prijatelji</string>
     <string name="recipes">Moji recepti</string>
+    <string name="home">Home</string>
+    <string name="register">Register</string>
+
+
 </resources>
