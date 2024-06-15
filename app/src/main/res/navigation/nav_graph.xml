@@ -16,14 +16,15 @@
             app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_introFragment_to_homeFragment"
-            app:destination="@id/homenewFragment"
+            app:destination="@id/Main"
             app:popUpTo="@id/introFragment"
             app:popUpToInclusive="true"/>
     </fragment>
     <fragment
-        android:id="@+id/homenewFragment"
+        android:id="@+id/Main"
         android:name="rma.projekt.cookbook.ui.HomeNewFragment"
-        android:label="fragment_home_new">
+        android:label="fragment_home_new"
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_authentication"
             app:destination="@id/authentication" />
@@ -54,7 +55,7 @@
             tools:layout="@layout/fragment_recover_account" />
         <action
             android:id="@+id/action_global_homeFragment"
-            app:destination="@id/homenewFragment"
+            app:destination="@id/Main"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
     </navigation>

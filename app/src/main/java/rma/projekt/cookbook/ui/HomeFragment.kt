@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
         //binding.pager.adapter = adapter
 
         adapter.addFragment(NewsFragment(), R.string.news)
-        adapter.addFragment(FriendsFragment(), R.string.friends)
+        //adapter.addFragment(FriendsFragment(), R.string.friends)
         //adapter.addFragment(MyRecipesFragment(), R.string.recipes)
 
 

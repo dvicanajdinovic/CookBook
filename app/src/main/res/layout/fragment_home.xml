@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
-
+    android:layout_height="wrap_content"
+    tools:context=".ui.HomeNewFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/bar"
@@ -13,7 +12,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@android:color/transparent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -33,19 +33,62 @@
                 app:tabTextAppearance="@style/TableStyle"
                 app:tabTextColor="@color/white" />
 
+            <Button
+                android:id="@+id/button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="Browse"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/button2"
+                app:layout_constraintWidth_percent="0.3"
+                android:background="@drawable/button_background"/>
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="Favorites"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/button"
+                app:layout_constraintEnd_toStartOf="@+id/button3"
+                app:layout_constraintWidth_percent="0.3"
+                android:background="@drawable/button_background"/>
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="My Posts"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/button2"
+                app:layout_constraintEnd_toStartOf="@+id/ibLogout"
+                app:layout_constraintWidth_percent="0.3"
+                android:background="@drawable/button_background"
+                />
+
             <ImageButton
                 android:id="@+id/ibLogout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:paddingHorizontal="8dp"
-                android:src="@drawable/logout_icon"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:src="@drawable/rounded_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/button_background"/>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
+
+    <include
+        layout="@layout/fragment_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </androidx.constraintlayout.widget.ConstraintLayout>
