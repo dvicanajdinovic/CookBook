@@ -5,6 +5,11 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/introFragment">
     <fragment
+        android:id="@+id/recipeAdd"
+        android:name="rma.projekt.cookbook.ui.AddRecipeFragment"
+        android:label="fragment_add_recipe"
+        tools:layout="@layout/fragment_add_recipe" />
+    <fragment
         android:id="@+id/introFragment"
         android:name="rma.projekt.cookbook.ui.IntroFragment"
         android:label="fragment_intro"
@@ -28,6 +33,9 @@
         <action
             android:id="@+id/action_homeFragment_to_authentication"
             app:destination="@id/authentication" />
+        <action
+            android:id="@+id/action_Home_to_recipeAdd"
+            app:destination="@id/recipeAdd" />
     </fragment>
     <navigation android:id="@+id/authentication"
         app:startDestination="@id/loginFragment">

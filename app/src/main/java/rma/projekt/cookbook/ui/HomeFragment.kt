@@ -16,6 +16,7 @@ import com.google.firebase.auth.auth
 import rma.projekt.cookbook.R
 import rma.projekt.cookbook.databinding.FragmentHomeBinding
 import rma.projekt.cookbook.ui.board.TableView
+import rma.projekt.cookbook.ui.gallery.GalleryFragment
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -31,9 +32,32 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        replaceFragment(GalleryFragment())
+
+        binding.button.setOnClickListener{
+            replaceFragment(GalleryFragment())
+        }
+        binding.button2.setOnClickListener{
+            replaceFragment(FavoritesFragment())
+        }
+        binding.button3.setOnClickListener{
+            replaceFragment(PostsFragment())
+        }
+        binding.floatingActionButton.setOnClickListener {
+            findNavController().navigate(R.id.action_Home_to_recipeAdd)
+        }
 
         return root
     }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = requireActivity().supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragmentContainer, fragment)
+        fragmentTransaction.commit()
+    }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
