@@ -12,11 +12,12 @@ import android.widget.ToggleButton
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import rma.projekt.cookbook.R
 import rma.projekt.cookbook.ui.gallery.Recipe
 
 class FavoritesAdapter(
-    private var originalRecipeList: List<Recipe>,
+    var originalRecipeList: List<Recipe>,
     private val onRatingChanged: (recipe: Recipe, rating: Float) -> Unit,
     private val onFavoriteChanged: (recipe: Recipe) -> Unit // Callback for favorite changes
 ) : RecyclerView.Adapter<FavoritesAdapter.RecipeViewHolder>() {
@@ -27,15 +28,16 @@ class FavoritesAdapter(
     private var filteredRecipeList: List<Recipe> = originalRecipeList.filter { it.favorite }
     // Function to update the list of recipes in the adapter
     fun updateList(newList: List<Recipe>) {
-        originalRecipeList = newList // Update the original list
-        filterItems()
+        originalRecipeList = newList
+        filterItems() // After updating the list, filter items based on 'favorite' status
     }
     inner class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleTextView: TextView = itemView.findViewById(R.id.itemTitle)
-        val descriptionTextView: TextView = itemView.findViewById(R.id.itemDescription)
+      //  val descriptionTextView: TextView = itemView.findViewById(R.id.itemDescription)
         val imageView: ImageView = itemView.findViewById(R.id.itemImage)
         val ratingBar: RatingBar = itemView.findViewById(R.id.ratingBar)
         val favoriteIcon: ToggleButton = itemView.findViewById(R.id.toggleButton) // Favorite icon
+        val itemRating : TextView = itemView.findViewById(R.id.itemRating)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
@@ -47,7 +49,7 @@ class FavoritesAdapter(
         val recipe = filteredRecipeList[position]
 
         holder.titleTextView.text = recipe.title
-        holder.descriptionTextView.text = recipe.description
+     //   holder.descriptionTextView.text = recipe.description
 
         // Load image using Glide
         Glide.with(holder.itemView)
@@ -55,11 +57,12 @@ class FavoritesAdapter(
             .into(holder.imageView)
 
         // Set rating
-        holder.ratingBar.rating = getAverageRating(recipe)
-
+        holder.ratingBar.rating = recipe.ratings[FirebaseAuth.getInstance().currentUser?.uid] ?: 0f
+        holder.itemRating.text = String.format("%.1f / 5", getAverageRating(recipe))
         // Handle rating change
         holder.ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
             onRatingChanged(recipe, rating)
+            holder.itemRating.text = String.format("%.1f / 5", getAverageRating(recipe))
         }
 
         // Set favorite icon color
@@ -91,6 +94,10 @@ class FavoritesAdapter(
             0f // No ratings yet
         }
     }
+
+
+
+
 
     // Function to filter the list based on favorite status
     private fun filterItems() {

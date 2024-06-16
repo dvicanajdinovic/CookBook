@@ -45,6 +45,7 @@ class GalleryFragment : Fragment() {
             updateFavoriteInDatabase(recipe)
         })
 
+
         recyclerView.adapter = galleryAdapter
 
         eventChangeListener()
