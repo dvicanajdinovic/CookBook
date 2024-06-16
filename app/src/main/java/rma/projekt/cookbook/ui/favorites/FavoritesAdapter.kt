@@ -1,6 +1,7 @@
 package rma.projekt.cookbook.ui.favorites
 
 import android.content.res.ColorStateList
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,9 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.ToggleButton
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -38,6 +41,7 @@ class FavoritesAdapter(
         val ratingBar: RatingBar = itemView.findViewById(R.id.ratingBar)
         val favoriteIcon: ToggleButton = itemView.findViewById(R.id.toggleButton) // Favorite icon
         val itemRating : TextView = itemView.findViewById(R.id.itemRating)
+        val card: CardView = itemView.findViewById(R.id.cardView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
@@ -77,6 +81,13 @@ class FavoritesAdapter(
             recipe.favorite = isChecked // Update recipe favorite status
             onFavoriteChanged(recipe) // Notify the callback
             filterItems() // Update filtered list
+        }
+
+        holder.card.setOnClickListener{
+            val bundle = Bundle().apply {
+                putString("recipeId", recipe.documentId)
+            }
+            holder.card.findNavController().navigate(R.id.action_Home_to_recipeDetail, bundle)
         }
     }
 

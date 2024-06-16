@@ -1,11 +1,14 @@
 package rma.projekt.cookbook.ui.posts
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.cardview.widget.CardView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -16,12 +19,13 @@ class PostsAdapter(private val recipeList: List<Recipe>, private val onRatingCha
     RecyclerView.Adapter<PostsAdapter.RecipeViewHolder>() {
 
     inner class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
         val titleTextView: TextView = itemView.findViewById(R.id.itemTitle)
        // val descriptionTextView: TextView = itemView.findViewById(R.id.itemDescription)
         val imageView: ImageView = itemView.findViewById(R.id.itemImage)
         val itemRating: TextView = itemView.findViewById(R.id.itemRating)
         val postDelete: FloatingActionButton = itemView.findViewById(R.id.floatingActionButton2)
-
+        val card: CardView = itemView.findViewById(R.id.cardViewposts)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
@@ -43,6 +47,12 @@ class PostsAdapter(private val recipeList: List<Recipe>, private val onRatingCha
 
         holder.postDelete.setOnClickListener {
             showDeleteConfirmationDialog(holder.itemView.context, recipe)
+        }
+        holder.card.setOnClickListener{
+            val bundle = Bundle().apply {
+                putString("recipeId", recipe.documentId)
+            }
+            holder.card.findNavController().navigate(R.id.action_Home_to_recipeDetail, bundle)
         }
     }
 
