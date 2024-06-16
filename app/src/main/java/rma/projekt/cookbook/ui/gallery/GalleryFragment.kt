@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +16,6 @@ import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import rma.projekt.cookbook.databinding.FragmentGalleryBinding
 import GalleryAdapter
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
 import rma.projekt.cookbook.R
 
@@ -23,8 +25,11 @@ class GalleryFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
     private lateinit var recipeArrayList: ArrayList<Recipe>
+    private lateinit var filteredRecipeArrayList: ArrayList<Recipe>
     private lateinit var galleryAdapter: GalleryAdapter
     private var db = FirebaseFirestore.getInstance()
+    private lateinit var categorySpinner: Spinner
+    private lateinit var subcategorySpinner: Spinner
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,23 +39,79 @@ class GalleryFragment : Fragment() {
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         val root = binding.root
 
+        categorySpinner = binding.categorySpinner
+        subcategorySpinner = binding.subcategorySpinner
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
 
         recipeArrayList = arrayListOf()
-        galleryAdapter = GalleryAdapter(recipeArrayList, { recipe, rating ->
+        filteredRecipeArrayList = arrayListOf()
+        galleryAdapter = GalleryAdapter(filteredRecipeArrayList, { recipe, rating ->
             updateRatingInDatabase(recipe, rating)
         }, { recipe ->
             updateFavoriteInDatabase(recipe)
         })
 
-
         recyclerView.adapter = galleryAdapter
 
+        setupCategorySpinner()
         eventChangeListener()
 
         return root
+    }
+
+    private fun setupCategorySpinner() {
+        val categories = listOf("All", "Yoyo", "Category2", "Category3") // Replace with actual categories
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        categorySpinner.adapter = adapter
+
+        categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                setupSubcategorySpinner(categories[position])
+                filterRecipes()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Do nothing
+            }
+        }
+    }
+
+    private fun setupSubcategorySpinner(category: String) {
+        val subcategories = when (category) {
+            "Yoyo" -> listOf("All", "Yohaha", "Subcategory1.2")
+            "Category2" -> listOf("All", "Subcategory2.1", "Subcategory2.2")
+            "Category3" -> listOf("All", "Subcategory3.1", "Subcategory3.2")
+            else -> listOf("All")
+        }
+
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, subcategories)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        subcategorySpinner.adapter = adapter
+
+        subcategorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                filterRecipes()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Do nothing
+            }
+        }
+    }
+
+    private fun filterRecipes() {
+        val selectedCategory = categorySpinner.selectedItem.toString()
+        val selectedSubcategory = subcategorySpinner.selectedItem.toString()
+
+        filteredRecipeArrayList.clear()
+        filteredRecipeArrayList.addAll(recipeArrayList.filter { recipe ->
+            (selectedCategory == "All" || recipe.title == selectedCategory) &&
+                    (selectedSubcategory == "All" || recipe.description == selectedSubcategory)
+        })
+        galleryAdapter.notifyDataSetChanged()
     }
 
     private fun eventChangeListener() {
@@ -71,7 +132,7 @@ class GalleryFragment : Fragment() {
                         recipeArrayList.add(recipe)
                     }
                 }
-                galleryAdapter.notifyDataSetChanged()
+                filterRecipes() // Filter the recipes after fetching
             }
     }
 
@@ -125,16 +186,9 @@ class GalleryFragment : Fragment() {
                 findNavController().navigate(R.id.action_Home_self)
             }
     }
-//
-//    private fun returnScroll(){
-//        findNavController().navigate(R.id.action_Home_self)
-//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        //findNavController().navigate(R.id.action_Home_self)
     }
 }
-
-

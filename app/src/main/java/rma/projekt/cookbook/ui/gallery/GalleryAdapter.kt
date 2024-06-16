@@ -44,8 +44,6 @@ class GalleryAdapter(
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         val recipe = recipeList[position]
 
-
-
         holder.titleTextView.text = recipe.title
       //  holder.descriptionTextView.text = recipe.description
 
