@@ -4,26 +4,28 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import rma.projekt.cookbook.databinding.FragmentAddRecipeBinding
-import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
-import java.util.UUID
-import android.widget.Toast
 import rma.projekt.cookbook.R
+import rma.projekt.cookbook.databinding.FragmentAddRecipeBinding
+import java.util.UUID
+
 
 class AddRecipeFragment : Fragment() {
 
@@ -34,6 +36,8 @@ class AddRecipeFragment : Fragment() {
     private lateinit var storage: FirebaseStorage
     private lateinit var firestore: FirebaseFirestore
     private var selectedImageUri: Uri? = null
+
+    private lateinit var btn: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +64,11 @@ class AddRecipeFragment : Fragment() {
 
         binding.btnObjavi.setOnClickListener {
             uploadRecipe()
+        }
+
+        btn = binding.root.findViewById(R.id.btnExpandList)
+        binding.btnExpandList.setOnClickListener {
+            expandIngredientsList(binding.root)
         }
     }
 
@@ -119,6 +128,12 @@ class AddRecipeFragment : Fragment() {
             }
             .setNegativeButton("Ne", null)
             .show()
+    }
+
+    private fun expandIngredientsList(rootView: View) {
+        val parentLayout = rootView.findViewById<LinearLayout>(R.id.ingredientsList)
+        val child = LinearLayout(context)
+        parentLayout.addView(child)
     }
 
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
