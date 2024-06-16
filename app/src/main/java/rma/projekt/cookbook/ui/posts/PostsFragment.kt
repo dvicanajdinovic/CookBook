@@ -1,5 +1,6 @@
 package rma.projekt.cookbook.ui.posts
 
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +40,8 @@ class PostsFragment : Fragment() {
         postsAdapter = PostsAdapter(recipeArrayList) { recipe, rating ->
             updateRatingInDatabase(recipe, rating)
         }
+
+
 
         recyclerView.adapter = postsAdapter
 
@@ -101,6 +104,17 @@ class PostsFragment : Fragment() {
             }.addOnFailureListener {
                 // Failed to update rating
                 Toast.makeText(requireContext(), "Failed to update rating.", Toast.LENGTH_SHORT).show()
+            }
+    }
+    private fun deleteRecipe(recipe: Recipe) {
+        // Implement the deletion logic here
+        val recipeRef = db.collection("recipes").document(recipe.documentId)
+        recipeRef.delete()
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "Item deleted successfully", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to delete item", Toast.LENGTH_SHORT).show()
             }
     }
 

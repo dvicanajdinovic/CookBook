@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.recipedetail.RecipeDetailFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Recipe Title -->
+        <TextView
+            android:id="@+id/textViewRecipeTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="8dp"
+            tools:text="Recipe Title" />
+
+        <!-- Recipe Image -->
+        <ImageView
+            android:id="@+id/imageViewRecipe"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="16dp"
+            tools:src="@drawable/placeholder_image" />
+
+        <!-- Recipe Rating -->
+        <RatingBar
+            android:id="@+id/ratingBarRecipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:rating="0"
+            android:isIndicator="true"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Recipe Description -->
+        <TextView
+            android:id="@+id/textViewRecipeDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="16dp"
+            tools:text="Recipe Description" />
+
+        <!-- Recipe Ingredients -->
+        <TextView
+            android:id="@+id/textViewRecipeIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="16dp"
+            android:textStyle="bold"
+            android:text="Ingredients"
+            />
+
+        <!-- Recipe Instructions -->
+        <TextView
+            android:id="@+id/textViewRecipeInstructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="Instructions"
+            />
+
+        <!-- Back Button -->
+        <Button
+            android:id="@+id/buttonBack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Povratak" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

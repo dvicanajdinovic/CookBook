@@ -126,11 +126,15 @@ class FavoritesFragment : Fragment() {
             .update("favorite", recipe.favorite)
             .addOnSuccessListener {
                 Toast.makeText(requireContext(), "Favorite status updated.", Toast.LENGTH_SHORT).show()
+                // Remove the recipe from the adapter when it's unfavorited
+                if (!recipe.favorite) {
+                    favoritesAdapter.updateList(favoritesAdapter.originalRecipeList.filter { it.documentId != recipe.documentId })
+                }
             }.addOnFailureListener {
                 Toast.makeText(requireContext(), "Failed to update favorite status.", Toast.LENGTH_SHORT).show()
             }
-
     }
+
 
 
     override fun onDestroyView() {

@@ -49,6 +49,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_Home_to_recipeAdd)
         }
 
+
         return root
     }
 
