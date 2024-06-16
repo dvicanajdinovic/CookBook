@@ -65,6 +65,13 @@ class RecipeDetailFragment : Fragment() {
             .load(recipe.imageUrl)
             .into(binding.imageViewRecipe)
 
+        // Display ingredients
+        val ingredientsText = StringBuilder()
+        for (ingredient in recipe.ingredients) {
+            ingredientsText.append("${ingredient.name}: ${ingredient.quantity} ${ingredient.unit}\n")
+        }
+        binding.textViewRecipeIngredients.text = ingredientsText.toString()
+
         // Display rating
         val currentUser = FirebaseAuth.getInstance().currentUser
         val currentUserRating = recipe.ratings[currentUser?.uid] ?: 0f
@@ -78,6 +85,10 @@ class RecipeDetailFragment : Fragment() {
                 updateRatingInFirestore(recipeId, rating)
             }
         }
+
+        // Display average rating
+        val averageRating = getAverageRating(recipe)
+        binding.textViewRecipeRating.text = String.format("%.1f / 5", averageRating)
     }
 
     // Function to update the rating in Firestore
@@ -94,6 +105,16 @@ class RecipeDetailFragment : Fragment() {
                 .addOnFailureListener { exception ->
                     // Handle failure
                 }
+        }
+    }
+
+    private fun getAverageRating(recipe: Recipe): Float {
+        val ratings = recipe.ratings.values // Get all the ratings
+        return if (ratings.isNotEmpty()) {
+            val totalRating = ratings.sum() // Sum of all ratings
+            totalRating.toFloat() / ratings.size // Calculate average
+        } else {
+            0f // No ratings yet
         }
     }
 

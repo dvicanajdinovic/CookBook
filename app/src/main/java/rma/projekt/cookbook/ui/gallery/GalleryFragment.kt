@@ -125,10 +125,10 @@ class GalleryFragment : Fragment() {
                 findNavController().navigate(R.id.action_Home_self)
             }
     }
-
-    private fun returnScroll(){
-        findNavController().navigate(R.id.action_Home_self)
-    }
+//
+//    private fun returnScroll(){
+//        findNavController().navigate(R.id.action_Home_self)
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

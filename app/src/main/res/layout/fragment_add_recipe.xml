@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -34,8 +35,7 @@
             android:text="Naslov:"
             app:layout_constraintTop_toBottomOf="@id/fullscreen_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/editNaslov" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Naslov EditText -->
         <EditText
@@ -47,8 +47,7 @@
             android:inputType="text"
             app:layout_constraintTop_toBottomOf="@id/receptNaslov"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/receptOpis" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Opis TextView -->
         <TextView
@@ -58,8 +57,7 @@
             android:text="Opis:"
             app:layout_constraintTop_toBottomOf="@id/editNaslov"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/editOpis" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Opis EditText -->
         <com.google.android.material.textfield.TextInputEditText
@@ -72,30 +70,45 @@
             android:maxLines="100"
             app:layout_constraintTop_toBottomOf="@id/receptOpis"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/ingredientsList" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Add ingredients -->
         <LinearLayout
             android:id="@+id/ingredientsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/editOpis"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/btnImportImage"
-            android:orientation="vertical">
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <include layout="@layout/add_ingredient"></include>
-            <include layout="@layout/add_ingredient"></include>
-            <include layout="@layout/add_ingredient"></include>
 
-            <!-- Button to add more items -->
-            <Button
-                android:id="@+id/btnExpandList"
-                android:layout_width="wrap_content"
+
+            <!-- Wrap buttons in a LinearLayout to center them horizontally -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Dodajte još sastojaka"/>
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="20dp">
+
+                <Button
+                    android:id="@+id/btnExpandList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Dodajte još sastojaka"
+                    android:layout_marginEnd="16dp"/>
+
+                <!-- Button to delete the last ingredient added -->
+                <Button
+                    android:id="@+id/btnDeleteLast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Izbrišite posljednji sastojak"/>
+            </LinearLayout>
+
+
         </LinearLayout>
 
         <!-- Button to import image from gallery -->
@@ -106,10 +119,9 @@
             android:text="Uvezite sliku"
             android:layout_marginTop="20dp"
             android:background="@drawable/button_background"
-            app:layout_constraintTop_toBottomOf="@id/editOpis"
+            app:layout_constraintTop_toBottomOf="@id/ingredientsList"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/imageView" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- ImageView to display selected image -->
         <ImageView
@@ -120,8 +132,7 @@
             android:contentDescription="@string/image_desc"
             app:layout_constraintTop_toBottomOf="@id/btnImportImage"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/fullscreen_content_controls" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Controls LinearLayout -->
         <LinearLayout
@@ -155,3 +166,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
+

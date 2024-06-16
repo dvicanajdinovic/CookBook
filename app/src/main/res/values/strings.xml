@@ -113,5 +113,16 @@
     <string name="btnOdustani">Odustani</string>
     <string name="image_desc" />
 
+    <string-array name="unit_array">
+        <item>grami</item>
+        <item>kilogrami</item>
+        <item>šalice</item>
+        <item>jušne žlice</item>
+        <item>čajne žličice</item>
+        <item>litre</item>
+        <item>mililitri</item>
+    </string-array>
+
+
 
 </resources>

@@ -7,7 +7,10 @@ data class Recipe(
     val ratings: HashMap<String, Float> = hashMapOf(), // Changed to ratings
     val userId: String = "",
     var documentId: String = "",
-    var favorite: Boolean = false // Added favorite
+    var favorite: Boolean = false, // Added favorite
+    val ingredients: List<Ingredient> = listOf() // List of ingredients
 ) {
     constructor() : this("", "", "", hashMapOf(), "", "", false)
 }
+
+

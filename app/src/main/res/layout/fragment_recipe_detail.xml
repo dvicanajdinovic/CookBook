@@ -31,6 +31,17 @@
             android:layout_marginBottom="16dp"
             tools:src="@drawable/placeholder_image" />
 
+        <TextView
+            android:id="@+id/textViewRecipeRating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="16dp"
+            android:textStyle="bold"
+            android:text="Ocjena: " />
+
+
         <!-- Recipe Rating -->
         <RatingBar
             android:id="@+id/ratingBarRecipe"
@@ -42,6 +53,17 @@
             android:isIndicator="true"
             android:layout_marginBottom="8dp" />
 
+        <!-- Recipe Ingredients -->
+        <TextView
+            android:id="@+id/textViewRecipeIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="Sastojci: "
+            />
+
         <!-- Recipe Description -->
         <TextView
             android:id="@+id/textViewRecipeDescription"
@@ -52,28 +74,8 @@
             android:layout_marginBottom="16dp"
             tools:text="Opis recepta" />
 
-        <!-- Recipe Ingredients -->
-        <TextView
-            android:id="@+id/textViewRecipeIngredients"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
-            android:layout_marginBottom="16dp"
-            android:textStyle="bold"
-            android:text="Sastojci"
-            />
 
-        <!-- Recipe Instructions -->
-        <TextView
-            android:id="@+id/textViewRecipeInstructions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:text="Postupak pripreme"
-            />
+
 
         <!-- Back Button -->
         <Button
