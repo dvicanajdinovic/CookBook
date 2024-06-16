@@ -1,4 +1,4 @@
-package rma.projekt.cookbook.ui.gallery
+package rma.projekt.cookbook.ui.posts
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,18 +12,15 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import rma.projekt.cookbook.databinding.FragmentGalleryBinding
-import GalleryAdapter
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
-import androidx.navigation.fragment.findNavController
-import rma.projekt.cookbook.R
+import rma.projekt.cookbook.ui.gallery.Recipe
 
-class GalleryFragment : Fragment() {
+class PostsFragment : Fragment() {
 
     private var _binding: FragmentGalleryBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
     private lateinit var recipeArrayList: ArrayList<Recipe>
-    private lateinit var galleryAdapter: GalleryAdapter
+    private lateinit var postsAdapter: PostsAdapter
     private var db = FirebaseFirestore.getInstance()
 
     override fun onCreateView(
@@ -39,13 +36,11 @@ class GalleryFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
 
         recipeArrayList = arrayListOf()
-        galleryAdapter = GalleryAdapter(recipeArrayList, { recipe, rating ->
+        postsAdapter = PostsAdapter(recipeArrayList) { recipe, rating ->
             updateRatingInDatabase(recipe, rating)
-        }, { recipe ->
-            updateFavoriteInDatabase(recipe)
-        })
+        }
 
-        recyclerView.adapter = galleryAdapter
+        recyclerView.adapter = postsAdapter
 
         eventChangeListener()
 
@@ -56,7 +51,7 @@ class GalleryFragment : Fragment() {
         val currentUserId = getCurrentUserId()
 
         db.collection("recipes")
-            .whereNotEqualTo("userId", currentUserId)
+            .whereEqualTo("userId", currentUserId)
             .addSnapshotListener { value, error ->
                 if (error != null) {
                     // Handle error
@@ -70,7 +65,7 @@ class GalleryFragment : Fragment() {
                         recipeArrayList.add(recipe)
                     }
                 }
-                galleryAdapter.notifyDataSetChanged()
+                postsAdapter.notifyDataSetChanged()
             }
     }
 
@@ -103,37 +98,14 @@ class GalleryFragment : Fragment() {
             ).addOnSuccessListener {
                 // Rating successfully updated
                 Toast.makeText(requireContext(), "Rating updated successfully.", Toast.LENGTH_SHORT).show()
-                // Refresh the fragment
-                findNavController().navigate(R.id.action_Home_self)
-
             }.addOnFailureListener {
                 // Failed to update rating
                 Toast.makeText(requireContext(), "Failed to update rating.", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_Home_self)
             }
-    }
-
-    private fun updateFavoriteInDatabase(recipe: Recipe) {
-        db.collection("recipes").document(recipe.documentId)
-            .update("favorite", recipe.favorite)
-            .addOnSuccessListener {
-                Toast.makeText(requireContext(), "Favorite status updated.", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_Home_self)
-            }.addOnFailureListener {
-                Toast.makeText(requireContext(), "Failed to update favorite status.", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_Home_self)
-            }
-    }
-
-    private fun returnScroll(){
-        findNavController().navigate(R.id.action_Home_self)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        //findNavController().navigate(R.id.action_Home_self)
     }
 }
-
-

@@ -1,4 +1,5 @@
-package rma.projekt.cookbook.ui
+package rma.projekt.cookbook.ui.favorites
+
 
 import android.os.Bundle
 
@@ -20,7 +21,7 @@ import rma.projekt.cookbook.ui.favorites.FavoritesFragment
 import rma.projekt.cookbook.ui.gallery.GalleryFragment
 import rma.projekt.cookbook.ui.posts.PostsFragment
 
-class HomeFragment : Fragment() {
+class FavoritesHomeHackfix : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -34,15 +35,15 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        replaceFragment(GalleryFragment()) // Here is the starting point of the app
+        replaceFragment(FavoritesFragment()) // Here is the starting point of the app
 
-        binding.button.setOnClickListener{
+        binding.button.setOnClickListener {
             replaceFragment(GalleryFragment())
         }
-        binding.button2.setOnClickListener{
+        binding.button2.setOnClickListener {
             replaceFragment(FavoritesFragment())
         }
-        binding.button3.setOnClickListener{
+        binding.button3.setOnClickListener {
             replaceFragment(PostsFragment())
         }
         binding.floatingActionButton.setOnClickListener {
@@ -60,7 +61,6 @@ class HomeFragment : Fragment() {
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -69,6 +69,7 @@ class HomeFragment : Fragment() {
         chooseContent()
 
     }
+
     private fun setTable() {
         val adapter = TableView(requireActivity())
 //        binding.pager.adapter = adapter

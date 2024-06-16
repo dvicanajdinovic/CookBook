@@ -1,4 +1,4 @@
-package rma.projekt.cookbook.ui.gallery
+package rma.projekt.cookbook.ui.favorites
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,72 +11,73 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
-import rma.projekt.cookbook.databinding.FragmentGalleryBinding
-import GalleryAdapter
+import rma.projekt.cookbook.databinding.FragmentFavoritesBinding
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
 import rma.projekt.cookbook.R
+import rma.projekt.cookbook.ui.gallery.Recipe
 
-class GalleryFragment : Fragment() {
+class FavoritesFragment : Fragment() {
 
-    private var _binding: FragmentGalleryBinding? = null
+    private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
-    private lateinit var recipeArrayList: ArrayList<Recipe>
-    private lateinit var galleryAdapter: GalleryAdapter
-    private var db = FirebaseFirestore.getInstance()
+    private lateinit var favoritesAdapter: FavoritesAdapter
+    private val db = FirebaseFirestore.getInstance()
+    private val currentUser = FirebaseAuth.getInstance().currentUser
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentGalleryBinding.inflate(inflater, container, false)
+        _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         val root = binding.root
 
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
 
-        recipeArrayList = arrayListOf()
-        galleryAdapter = GalleryAdapter(recipeArrayList, { recipe, rating ->
-            updateRatingInDatabase(recipe, rating)
-        }, { recipe ->
-            updateFavoriteInDatabase(recipe)
-        })
+        favoritesAdapter = FavoritesAdapter(
+            mutableListOf(), // Initially, show an empty list
+            { recipe, rating ->
+                updateRatingInDatabase(recipe, rating)
+            },
+            { recipe ->
+                updateFavoriteInDatabase(recipe)
+            }
+        )
 
-        recyclerView.adapter = galleryAdapter
+        recyclerView.adapter = favoritesAdapter
 
         eventChangeListener()
-
         return root
     }
 
     private fun eventChangeListener() {
-        val currentUserId = getCurrentUserId()
+        val currentUserId = currentUser?.uid ?: ""
 
+        // Listen for changes in recipes collection where favorite is true
         db.collection("recipes")
             .whereNotEqualTo("userId", currentUserId)
+            .whereEqualTo("favorite", true)
             .addSnapshotListener { value, error ->
                 if (error != null) {
                     // Handle error
                     return@addSnapshotListener
                 }
-                recipeArrayList.clear()
+
+                val favoriteRecipes = mutableListOf<Recipe>()
                 for (dc in value!!.documentChanges) {
                     if (dc.type == DocumentChange.Type.ADDED) {
                         val recipe = dc.document.toObject(Recipe::class.java)
                         recipe.documentId = dc.document.id // Set the document ID
-                        recipeArrayList.add(recipe)
+                        favoriteRecipes.add(recipe)
                     }
                 }
-                galleryAdapter.notifyDataSetChanged()
-            }
-    }
 
-    private fun getCurrentUserId(): String {
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        return currentUser?.uid ?: ""
+                favoritesAdapter.updateList(favoriteRecipes) // Update adapter list
+            }
     }
 
     private fun updateRatingInDatabase(recipe: Recipe, rating: Float) {
@@ -104,13 +105,20 @@ class GalleryFragment : Fragment() {
                 // Rating successfully updated
                 Toast.makeText(requireContext(), "Rating updated successfully.", Toast.LENGTH_SHORT).show()
                 // Refresh the fragment
-                findNavController().navigate(R.id.action_Home_self)
+
+
 
             }.addOnFailureListener {
                 // Failed to update rating
                 Toast.makeText(requireContext(), "Failed to update rating.", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_Home_self)
+
             }
+
+    }
+
+    private fun getCurrentUserId(): String {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        return currentUser?.uid ?: ""
     }
 
     private fun updateFavoriteInDatabase(recipe: Recipe) {
@@ -118,22 +126,17 @@ class GalleryFragment : Fragment() {
             .update("favorite", recipe.favorite)
             .addOnSuccessListener {
                 Toast.makeText(requireContext(), "Favorite status updated.", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_Home_self)
             }.addOnFailureListener {
                 Toast.makeText(requireContext(), "Failed to update favorite status.", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_Home_self)
             }
+
     }
 
-    private fun returnScroll(){
-        findNavController().navigate(R.id.action_Home_self)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        //findNavController().navigate(R.id.action_Home_self)
     }
+
+
 }
-
-

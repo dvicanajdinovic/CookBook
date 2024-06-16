@@ -1,3 +1,5 @@
+package rma.projekt.cookbook.ui.favorites
+
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +15,21 @@ import com.bumptech.glide.Glide
 import rma.projekt.cookbook.R
 import rma.projekt.cookbook.ui.gallery.Recipe
 
-class GalleryAdapter(
-    private val recipeList: List<Recipe>,
+class FavoritesAdapter(
+    private var originalRecipeList: List<Recipe>,
     private val onRatingChanged: (recipe: Recipe, rating: Float) -> Unit,
     private val onFavoriteChanged: (recipe: Recipe) -> Unit // Callback for favorite changes
-) : RecyclerView.Adapter<GalleryAdapter.RecipeViewHolder>() {
+) : RecyclerView.Adapter<FavoritesAdapter.RecipeViewHolder>() {
 
+    // Function to update the list of recipes in the adapter
+
+
+    private var filteredRecipeList: List<Recipe> = originalRecipeList.filter { it.favorite }
+    // Function to update the list of recipes in the adapter
+    fun updateList(newList: List<Recipe>) {
+        originalRecipeList = newList // Update the original list
+        filterItems()
+    }
     inner class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleTextView: TextView = itemView.findViewById(R.id.itemTitle)
         val descriptionTextView: TextView = itemView.findViewById(R.id.itemDescription)
@@ -33,7 +44,7 @@ class GalleryAdapter(
     }
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
-        val recipe = recipeList[position]
+        val recipe = filteredRecipeList[position]
 
         holder.titleTextView.text = recipe.title
         holder.descriptionTextView.text = recipe.description
@@ -50,28 +61,24 @@ class GalleryAdapter(
         holder.ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
             onRatingChanged(recipe, rating)
         }
+
         // Set favorite icon color
-        val favoriteColor = if (recipe.favorite) {
-            ContextCompat.getColor(holder.itemView.context, R.color.green)
-        } else {
-            ContextCompat.getColor(holder.itemView.context, R.color.gray)
-        }
+        val favoriteColor = ContextCompat.getColor(holder.itemView.context, R.color.green)
         holder.favoriteIcon.backgroundTintList = ColorStateList.valueOf(favoriteColor)
 
+        // Set favorite icon state
+        holder.favoriteIcon.isChecked = recipe.favorite
 
         // Handle favorite icon click
-        holder.favoriteIcon.setOnClickListener {
-            recipe.favorite = !recipe.favorite // Toggle favorite status
+        holder.favoriteIcon.setOnCheckedChangeListener { _, isChecked ->
+            recipe.favorite = isChecked // Update recipe favorite status
             onFavoriteChanged(recipe) // Notify the callback
-            notifyItemChanged(position) // Refresh the item to update the icon
+            filterItems() // Update filtered list
         }
-
-
-
     }
 
     override fun getItemCount(): Int {
-        return recipeList.size
+        return filteredRecipeList.size
     }
 
     // Function to calculate average rating
@@ -83,5 +90,11 @@ class GalleryAdapter(
         } else {
             0f // No ratings yet
         }
+    }
+
+    // Function to filter the list based on favorite status
+    private fun filterItems() {
+        filteredRecipeList = originalRecipeList.filter { it.favorite }
+        notifyDataSetChanged()
     }
 }

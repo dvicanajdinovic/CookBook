@@ -5,6 +5,10 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/introFragment">
     <fragment
+        android:id="@+id/Hackfix"
+        android:name="rma.projekt.cookbook.ui.favorites.FavoritesHomeHackfix"
+        android:label="fragment_home_hackfix" />
+    <fragment
         android:id="@+id/recipeAdd"
         android:name="rma.projekt.cookbook.ui.AddRecipeFragment"
         android:label="fragment_add_recipe"
@@ -36,6 +40,13 @@
         <action
             android:id="@+id/action_Home_to_recipeAdd"
             app:destination="@id/recipeAdd" />
+        <action
+            android:id="@+id/action_Home_self"
+            app:destination="@id/Home"
+            app:launchSingleTop="false" />
+        <action
+            android:id="@+id/action_Home_to_Hackfix"
+            app:destination="@id/Hackfix" />
     </fragment>
     <navigation android:id="@+id/authentication"
         app:startDestination="@id/loginFragment">
