@@ -60,7 +60,7 @@ class GalleryFragment : Fragment() {
     }
 
     private fun setupCategorySpinner() {
-        val categories = listOf("All", "Yoyo", "Category2", "Category3") // Replace with actual categories
+        val categories = listOf("All", "Test") // Replace with actual categories
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         categorySpinner.adapter = adapter
