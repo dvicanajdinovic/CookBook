@@ -20,7 +20,7 @@
             android:textStyle="bold"
             android:textColor="@android:color/black"
             android:layout_marginBottom="8dp"
-            tools:text="Recipe Title" />
+            tools:text="Naslov Recepta" />
 
         <!-- Recipe Image -->
         <ImageView
@@ -50,7 +50,7 @@
             android:textSize="16sp"
             android:textColor="@android:color/black"
             android:layout_marginBottom="16dp"
-            tools:text="Recipe Description" />
+            tools:text="Opis recepta" />
 
         <!-- Recipe Ingredients -->
         <TextView
@@ -61,7 +61,7 @@
             android:textColor="@android:color/black"
             android:layout_marginBottom="16dp"
             android:textStyle="bold"
-            android:text="Ingredients"
+            android:text="Sastojci"
             />
 
         <!-- Recipe Instructions -->
@@ -72,7 +72,7 @@
             android:textSize="16sp"
             android:textColor="@android:color/black"
             android:textStyle="bold"
-            android:text="Instructions"
+            android:text="Postupak pripreme"
             />
 
         <!-- Back Button -->

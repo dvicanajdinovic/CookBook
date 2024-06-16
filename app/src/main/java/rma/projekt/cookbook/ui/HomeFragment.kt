@@ -93,11 +93,11 @@ class HomeFragment : Fragment() {
 
     private fun showLogoutConfirmationDialog() {
         AlertDialog.Builder(requireContext())
-            .setMessage("Are you sure you want to logout?")
-            .setPositiveButton("Yes") { _, _ ->
+            .setMessage("Jeste li sigurni da se želite odjaviti?")
+            .setPositiveButton("Da") { _, _ ->
                 logout()
             }
-            .setNegativeButton("No", null)
+            .setNegativeButton("Ne", null)
             .show()
     }
 

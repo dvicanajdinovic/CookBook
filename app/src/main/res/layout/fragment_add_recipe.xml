@@ -95,7 +95,7 @@
                 android:id="@+id/expand_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add More Items"/>
+                android:text="Dodajte još sastojaka"/>
         </LinearLayout>
 
         <!-- Button to import image from gallery -->
@@ -103,7 +103,7 @@
             android:id="@+id/btnImportImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Import Image"
+            android:text="Uvezite sliku"
             android:layout_marginTop="20dp"
             android:background="@drawable/button_background"
             app:layout_constraintTop_toBottomOf="@id/editOpis"

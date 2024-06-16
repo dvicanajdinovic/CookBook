@@ -25,6 +25,12 @@ class RecoverAccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRecoverAccountBinding.inflate(layoutInflater, container, false)
+
+        binding.toolbar.setOnClickListener{
+            // return to previous fragment
+            findNavController().popBackStack()
+        }
+
         return binding.root
     }
 

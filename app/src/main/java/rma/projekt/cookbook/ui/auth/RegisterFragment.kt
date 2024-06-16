@@ -26,6 +26,13 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRegisterBinding.inflate(layoutInflater, container, false)
+
+        binding.toolbar.setOnClickListener{
+            // return to previous fragment
+            findNavController().popBackStack()
+        }
+
+
         return binding.root
     }
 
@@ -43,7 +50,7 @@ class RegisterFragment : Fragment() {
 
         if (email.isNotEmpty()) {
             if (password.isNotEmpty()) {
-                binding.progressBar.isVisible = true
+                //binding.progressBar.isVisible = true
                 register(email, password)
             } else {
                 Toast.makeText(requireContext(), "Unesi lozinku.", Toast.LENGTH_SHORT).show()
@@ -69,7 +76,7 @@ class RegisterFragment : Fragment() {
                 if (task.isSuccessful) {
                     findNavController().navigate(R.id.action_global_homeFragment)
                 } else {
-                    binding.progressBar.isVisible = false
+                    //binding.progressBar.isVisible = false
                 }
             }
     }
