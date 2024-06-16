@@ -29,7 +29,6 @@ class GalleryFragment : Fragment() {
     private lateinit var galleryAdapter: GalleryAdapter
     private var db = FirebaseFirestore.getInstance()
     private lateinit var categorySpinner: Spinner
-    private lateinit var subcategorySpinner: Spinner
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +39,6 @@ class GalleryFragment : Fragment() {
         val root = binding.root
 
         categorySpinner = binding.categorySpinner
-        subcategorySpinner = binding.subcategorySpinner
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
@@ -69,8 +67,7 @@ class GalleryFragment : Fragment() {
 
         categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                setupSubcategorySpinner(categories[position])
-                filterRecipes()
+                filterRecipesByCategory(categories[position])
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -79,38 +76,14 @@ class GalleryFragment : Fragment() {
         }
     }
 
-    private fun setupSubcategorySpinner(category: String) {
-        val subcategories = when (category) {
-            "Yoyo" -> listOf("All", "Yohaha", "Subcategory1.2")
-            "Category2" -> listOf("All", "Subcategory2.1", "Subcategory2.2")
-            "Category3" -> listOf("All", "Subcategory3.1", "Subcategory3.2")
-            else -> listOf("All")
+    private fun filterRecipesByCategory(category: String) {
+        if (category == "All") {
+            filteredRecipeArrayList.clear()
+            filteredRecipeArrayList.addAll(recipeArrayList)
+        } else {
+            filteredRecipeArrayList.clear()
+            filteredRecipeArrayList.addAll(recipeArrayList.filter { it.title == category })
         }
-
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, subcategories)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        subcategorySpinner.adapter = adapter
-
-        subcategorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                filterRecipes()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Do nothing
-            }
-        }
-    }
-
-    private fun filterRecipes() {
-        val selectedCategory = categorySpinner.selectedItem.toString()
-        val selectedSubcategory = subcategorySpinner.selectedItem.toString()
-
-        filteredRecipeArrayList.clear()
-        filteredRecipeArrayList.addAll(recipeArrayList.filter { recipe ->
-            (selectedCategory == "All" || recipe.title == selectedCategory) &&
-                    (selectedSubcategory == "All" || recipe.description == selectedSubcategory)
-        })
         galleryAdapter.notifyDataSetChanged()
     }
 
@@ -132,7 +105,7 @@ class GalleryFragment : Fragment() {
                         recipeArrayList.add(recipe)
                     }
                 }
-                filterRecipes() // Filter the recipes after fetching
+                filterRecipesByCategory(categorySpinner.selectedItem.toString()) // Filter the recipes after fetching
             }
     }
 
